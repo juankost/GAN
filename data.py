@@ -39,5 +39,3 @@ class MNISTDataModule(LightningDataModule):
     def test_dataloader(self):
         return DataLoader(self.mnist_test, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, pin_memory=True)
 
-
-if __name__ == "__main__":

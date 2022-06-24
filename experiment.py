@@ -5,7 +5,7 @@ import torch
 import torchvision
 import sys
 
-from GANs.models import Discriminator, Generator
+from models import Discriminator, Generator
 
 
 class GAN(LightningModule):
