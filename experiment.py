@@ -4,7 +4,7 @@ from pytorch_lightning import LightningModule
 import torch
 import torchvision
 
-from models import Discriminator, Generator
+from model import Discriminator, Generator
 
 
 class GAN(LightningModule):
