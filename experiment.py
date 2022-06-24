@@ -3,7 +3,6 @@ import torch.nn.functional as F
 from pytorch_lightning import LightningModule
 import torch
 import torchvision
-import sys
 
 from models import Discriminator, Generator
 
