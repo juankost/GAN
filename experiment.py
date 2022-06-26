@@ -85,7 +85,6 @@ class GAN(LightningModule):
         return [opt_g, opt_d], []
 
     def on_training_epoch_end(self):
-
         z = self.validation_z.type_as(self.generator.model[0].weight)
 
         # Log sampled image

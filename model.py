@@ -32,7 +32,6 @@ class Generator(LightningModule):
         return out
 
 
-
 class Discriminator(LightningModule):
 
     def __init__(self, img_shape):
