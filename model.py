@@ -23,7 +23,7 @@ class Generator(LightningModule):
             *block(latent_dim, hidden_size, normalize=False),
             *block(hidden_size, hidden_size*2, normalize=False),
             *block(hidden_size*2, hidden_size*4, normalize=False),
-            nn.Linear(hidden_size*4, np.prod(img_shape), normalize=False),
+            nn.Linear(hidden_size*4, np.prod(img_shape)),
             nn.Tanh(),
         )
 
