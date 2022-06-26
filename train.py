@@ -36,7 +36,6 @@ if __name__ == "__main__":
     trainer.fit(model, dm)
 
 # TODO: Debug GAN --> Generator is basically not training: look at loss function used, data augmentaiton, model specs,
-# TODO: Implement a conditional GAN 1h
+# TODO: Missing rescaling step in the training, i.e. the generator produces images [-1, 1], while the real images are [0,1]# TODO: Implement a conditional GAN 1h
 # TODO: Implement DC GAN  --> Train on the CIFAR 10 dataset!
 
-# TODO: Missing rescaling step in the training, i.e. the generator produces images [-1, 1], while the real images are [0,1]
