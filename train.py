@@ -17,10 +17,9 @@ if __name__ == "__main__":
     trainer.fit(model, dm)
 
 
-# TODO: Validate that the code works now!
-# TODO: Try with a differen dataset - MNIST, CIFAR10, TFD45 min
 # TODO: Better logging of the losses during training 40 min
-# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min
 # TODO: Adapt the exact loss how it's computed - remember the trick to stabilize the training 45 min
-# TODO: Understand how exactly doe pytorch lightning deal with multiple optimizers 30 min
+# TODO: Understand how exactly does pytorch lightning deal with multiple optimizers 30 min
+
+# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min --> Convolutional model based on DC GAN!!
 # TODO: Implement a conditional GAN 1h
