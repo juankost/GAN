@@ -14,7 +14,7 @@ class MNISTDataModule(LightningDataModule):
         self.transform = transforms.Compose(
             [
                 ToTensor(),
-                Normalize((0.1307,), (0.3081,)),
+                # Normalize((0.1307,), (0.3081,)),
             ]
         )
         self.num_workers = num_workers

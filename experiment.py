@@ -17,8 +17,11 @@ class GAN(LightningModule):
 
         # Networks
         data_shape = (channels, width, height)
-        self.generator = Generator(latent_dim, data_shape)
-        self.discriminator = Discriminator(data_shape)
+        # self.generator = Generator(latent_dim, data_shape)
+        # self.discriminator = Discriminator(data_shape)
+        self.generator = Generator(100, 32, 784)
+        self.discriminator = Discriminator(784, 32, 1)
+
         self.validation_z = torch.randn(16, self.hparams.latent_dim)
         self.example_input_array = torch.zeros(2, self.hparams.latent_dim)
 
