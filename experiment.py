@@ -21,6 +21,12 @@ class GAN(LightningModule):
         self.validation_z = torch.randn(16, self.hparams.latent_dim)
         self.example_input_array = torch.zeros(2, self.hparams.latent_dim)
 
+    def sample_generator(self, batch_size=1):
+        # Sample noise
+        z = torch.randn(batch_size, self.hparams.latent_dim).float()
+        imgs = self.generator(z)
+        return imgs
+
     def forward(self, z):
         return self.generator(z)
 
