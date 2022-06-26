@@ -1,12 +1,26 @@
+import argparse
 from pytorch_lightning import Trainer
 
-from data import MNISTDataModule
+from data import MNISTDataModule, CIFARDataModule
 from experiment import GAN
+from utils import DATA_DIR, AVAIL_GPUS
 
 
 
 if __name__ == "__main__":
-    dm = MNISTDataModule(data_dir="/content", batch_size=128)
+    args = argparse.ArgumentParser()
+
+    # dm = MNISTDataModule(data_dir=DATA_DIR, batch_size=128)
+    dm = CIFARDataModule(data_dir=DATA_DIR, batch_size=128)
     model = GAN(*dm.size())
-    trainer = Trainer(gpus=1, max_epochs=50, progress_bar_refresh_rate=5)
+    trainer = Trainer(gpus=int(AVAIL_GPUS), max_epochs=50, progress_bar_refresh_rate=5)
     trainer.fit(model, dm)
+
+
+# TODO: Validate that the code works now!
+# TODO: Try with a differen dataset - MNIST, CIFAR10, TFD45 min
+# TODO: Better logging of the losses during training 40 min
+# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min
+# TODO: Adapt the exact loss how it's computed - remember the trick to stabilize the training 45 min
+# TODO: Understand how exactly doe pytorch lightning deal with multiple optimizers 30 min
+# TODO: Implement a conditional GAN 1h

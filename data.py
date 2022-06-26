@@ -11,7 +11,6 @@ class MNISTDataModule(LightningDataModule):
     def __init__(self, data_dir, num_workers=5, batch_size=16, augmentations=None):
         super().__init__()
 
-
         self.transform = transforms.Compose(
             [
                 transforms.ToTensor(),
@@ -31,11 +30,35 @@ class MNISTDataModule(LightningDataModule):
         self.num_classes = 10
 
     def train_dataloader(self):
-        return DataLoader(self.mnist_train, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, pin_memory=True)
+        return DataLoader(self.mnist_train, batch_size=self.batch_size, shuffle=True,
+                          num_workers=self.num_workers, pin_memory=True)
 
     def val_dataloader(self):
-        return DataLoader(self.mnist_val, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, pin_memory=True)
+        return DataLoader(self.mnist_val, batch_size=self.batch_size, shuffle=False,
+                          num_workers=self.num_workers, pin_memory=True)
 
     def test_dataloader(self):
-        return DataLoader(self.mnist_test, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, pin_memory=True)
+        return DataLoader(self.mnist_test, batch_size=self.batch_size, shuffle=False,
+                          num_workers=self.num_workers, pin_memory=True)
+
+
+class CIFARDataModule(LightningDataModule):
+
+    def __init__(self, data_dir, batch_size=64, num_workers=8):
+
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.train_dataset = datasets.CIFAR10(root=data_dir, train=True, transform=train_transform,
+                                              target_transform=None, download=True)
+        self.val_dataset = datasets.CIFAR10(root=data_dir, train=False, transform=None,
+                                              target_transform=None, download=True)
+
+    def train_dataloader(self):
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True,
+                          num_workers=self.num_workers, pin_memory=True)
+
+    def val_dataloader(self):
+        return DataLoader(self.val_dataset, batch_size=self.batch_size, shuffle=False,
+                          num_workers=self.num_workers, pin_memory=True)
+
 

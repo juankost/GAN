@@ -86,7 +86,7 @@ class GAN(LightningModule):
         opt_d = torch.optim.Adam(self.discriminator.parameters(), lr=lr, betas=(b1, b2))
         return [opt_g, opt_d], []
 
-    def on_epoch_end(self):
+    def on_validation_epoch_end(self):
 
         z = self.validation_z.type_as(self.generator.model[0].weight)
 
