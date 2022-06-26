@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # Checkpointing
     regular_checkpoint_callback = ModelCheckpoint(
         save_top_k=20,
-        monitor="global_step",
+        monitor="epoch",
         mode="max",
         dirpath=CHECKPOINTS_DIR,
         filename="regular-{epoch:02d}-{global_step}",
@@ -35,8 +35,8 @@ if __name__ == "__main__":
                       log_every_n_steps=1)
     trainer.fit(model, dm)
 
-# TODO: Understand the performance of the generator/discriminator from the loss values/functions
-# TODO: Improve quality on the MNIST dataset
-
+# TODO: Debug GAN --> Generator is basically not training: look at loss function used, data augmentaiton, model specs,
 # TODO: Implement a conditional GAN 1h
-# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min --> Convolutional model based on DC GAN!!
+# TODO: Implement DC GAN  --> Train on the CIFAR 10 dataset!
+
+# TODO: Missing rescaling step in the training, i.e. the generator produces images [-1, 1], while the real images are [0,1]

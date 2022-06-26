@@ -35,16 +35,21 @@ class Generator(LightningModule):
 
 class Discriminator(LightningModule):
 
-    def __init__(self, img_shape, hidden_size=32, output_size=1):
+    def __init__(self, img_shape, hidden_size=32, output_size=1, dropout=0.3):
         super().__init__()
 
+        def block(in_feat, out_feat, normalize=True):
+            layers = [nn.Linear(in_feat, out_feat)]
+            if normalize:
+                layers.append(nn.BatchNorm1d(out_feat, 0.8))
+            layers.append(nn.LeakyReLU(0.2, inplace=True))
+            layers.append(nn.Dropout(dropout))
+            return layers
+
         self.model = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), hidden_size*4),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(hidden_size*4, hidden_size*2),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(hidden_size*2, hidden_size),
-            nn.LeakyReLU(0.2, inplace=True),
+            *block(np.prod(img_shape), hidden_size*4, normalize=False),
+            *block(hidden_size*4, hidden_size*2, normalize=False),
+            *block(hidden_size*2, hidden_size, normalize=False),
             nn.Linear(hidden_size, output_size),
         )
 

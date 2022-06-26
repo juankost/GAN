@@ -40,6 +40,9 @@ class GAN(LightningModule):
 
         imgs, _ = batch
 
+        # Rescale the images to be [-1, 1] instead of [0, 1]
+        imgs = imgs * 2 - 1
+
         # Sample noise
         z = torch.randn(imgs.shape[0], self.hparams.latent_dim)
         z = z.type_as(imgs)
@@ -53,7 +56,7 @@ class GAN(LightningModule):
             # Log sampled images
             sample_imgs = self.generated_imgs[:6]
             grid = torchvision.utils.make_grid(sample_imgs)
-            self.logger.experiment.add_image("generated_images", grid, self.trainer.global_step)  # TODO or 0??
+            self.logger.experiment.add_image("generated_images", grid, self.trainer.global_step)
 
             # Ground truth result (all fake images)
             valid = torch.ones(imgs.size(0), 1)  # Valid = 1 because the generator is trying to fool the discriminator
