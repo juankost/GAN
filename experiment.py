@@ -54,7 +54,7 @@ class GAN(LightningModule):
             g_loss = self.adversarial_loss(self.discriminator(self(z)), valid)
             tqdm_dict = {"g_loss": g_loss}
             output = OrderedDict({"loss": g_loss, "progress_bar": tqdm_dict, "log": tqdm_dict})
-            self.log("g_loss", g_loss)
+            self.log("g_loss", g_loss, prog_bar=True)
             return output
 
         if optimizer_idx == 1:
@@ -70,7 +70,7 @@ class GAN(LightningModule):
             d_loss = (fake_loss + real_loss) / 2.0
             tqdm_dict = {"d_loss": d_loss}
             output = OrderedDict({"loss": d_loss, "progress_bar": tqdm_dict, "log": tqdm_dict})
-            self.log("d_loss", d_loss)
+            self.log("d_loss", d_loss, prog_bar=True)
             self.log("d_real_sample_loss", real_loss, prog_bar=False)
             self.log("d_fake_sample_loss", fake_loss, prog_bar=False)
             return output
