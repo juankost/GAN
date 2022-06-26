@@ -27,7 +27,7 @@ if __name__ == "__main__":
     )
 
     # Logger
-    logger = TensorBoardLogger(save_dir=LOG_DIR, name="GAN_logs")
+    logger = TensorBoardLogger(save_dir=LOG_DIR, name="GAN")
     trainer = Trainer(logger=logger,
                       callbacks=[regular_checkpoint_callback],
                       gpus=int(AVAIL_GPUS),
@@ -37,5 +37,6 @@ if __name__ == "__main__":
 
 # TODO: Understand the performance of the generator/discriminator from the loss values/functions
 # TODO: Improve quality on the MNIST dataset
-# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min --> Convolutional model based on DC GAN!!
+
 # TODO: Implement a conditional GAN 1h
+# TODO: Adapt the model architecture for stronger discriminator/generator and see the impact 40 min --> Convolutional model based on DC GAN!!

@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import torch.nn.functional as F
+import torch.nn as nn
 from pytorch_lightning import LightningModule
 import torch
 import torchvision
@@ -21,6 +22,7 @@ class GAN(LightningModule):
         self.validation_z = torch.randn(16, self.hparams.latent_dim)
         self.example_input_array = torch.zeros(2, self.hparams.latent_dim)
 
+        self.criterion = nn.BCEWithLogitsLoss()
     def sample_generator(self, batch_size=1):
         # Sample noise
         z = torch.randn(batch_size, self.hparams.latent_dim).float()
@@ -31,7 +33,8 @@ class GAN(LightningModule):
         return self.generator(z)
 
     def adversarial_loss(self, y_hat, y):
-        return F.binary_cross_entropy(y_hat, y)
+        # return F.binary_cross_entropy(y_hat, y)
+        return self.criterion(y_hat, y)
 
     def training_step(self, batch, batch_ids, optimizer_idx):
 

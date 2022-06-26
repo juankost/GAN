@@ -1,11 +1,12 @@
 import numpy as np
 import torch.nn as nn
+import torch.nn.functional as F
 from pytorch_lightning import LightningModule
 
 
 class Generator(LightningModule):
 
-    def __init__(self, latent_dim, img_shape):
+    def __init__(self, latent_dim, img_shape, hidden_size=32, dropout=0.3):
         super().__init__()
 
         self.img_shape = img_shape
@@ -15,14 +16,14 @@ class Generator(LightningModule):
             if normalize:
                 layers.append(nn.BatchNorm1d(out_feat, 0.8))
             layers.append(nn.LeakyReLU(0.2, inplace=True))
+            layers.append(nn.Dropout(dropout))
             return layers
 
         self.model = nn.Sequential(
-            *block(latent_dim, 128, normalize=False),
-            *block(128, 256),
-            *block(256, 512),
-            *block(512, 1024),
-            nn.Linear(1024, np.prod(img_shape)),
+            *block(latent_dim, hidden_size, normalize=False),
+            *block(hidden_size, hidden_size*2, normalize=False),
+            *block(hidden_size*2, hidden_size*4, normalize=False),
+            nn.Linear(hidden_size*4, np.prod(img_shape), normalize=False),
             nn.Tanh(),
         )
 
@@ -34,16 +35,17 @@ class Generator(LightningModule):
 
 class Discriminator(LightningModule):
 
-    def __init__(self, img_shape):
+    def __init__(self, img_shape, hidden_size=32, output_size=1):
         super().__init__()
 
         self.model = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 512),
+            nn.Linear(int(np.prod(img_shape)), hidden_size*4),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(512, 256),
+            nn.Linear(hidden_size*4, hidden_size*2),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(256, 1),
-            nn.Sigmoid(),
+            nn.Linear(hidden_size*2, hidden_size),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(hidden_size, output_size),
         )
 
     def forward(self, img):
