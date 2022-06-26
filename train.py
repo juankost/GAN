@@ -8,10 +8,10 @@ from utils import DATA_DIR, AVAIL_GPUS
 
 
 if __name__ == "__main__":
-    args = argparse.ArgumentParser()
+    # args = argparse.ArgumentParser()
 
-    # dm = MNISTDataModule(data_dir=DATA_DIR, batch_size=128)
-    dm = CIFARDataModule(data_dir=DATA_DIR, batch_size=128)
+    dm = MNISTDataModule(data_dir=DATA_DIR, batch_size=128)
+    # dm = CIFARDataModule(data_dir=DATA_DIR, batch_size=128)
     model = GAN(*dm.size())
     trainer = Trainer(gpus=int(AVAIL_GPUS), max_epochs=50, progress_bar_refresh_rate=5)
     trainer.fit(model, dm)
